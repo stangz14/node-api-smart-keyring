@@ -22,7 +22,7 @@ const connection = mysql.createConnection(process.env.DATABASE_URL)
 app.post('/register', jsonParser , function (req, res, next) {
   bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
     connection.execute(
-      'INSERT INTO users (email, password, fname , lname ,age ,foodallergies ,drugallergy ,emergencynumber ,congenitaldisease ,bloodtype ,phonenumber) VALUES (?, ?, ?, ? ,? ,? ,? ,? ,? ,? ,?)',
+      'INSERT INTO users (`email`, `password`, `fname` , `lname` ,`age` ,`foodallergies` ,`drugallergy` ,`emergencynumber` ,`congenitaldisease` ,`bloodtype` ,`phonenumber`) VALUES (?, ?, ?, ? ,? ,? ,? ,? ,? ,? ,?)',
       [req.body.email ,hash ,req.body.fname ,req.body.lname,req.body.age,req.body.foodallergies,req.body.drugallergy,req.body.emergencynumber,req.body.congenitaldisease,req.body.bloodtype,req.body.phonenumber],
       function(err, results, fields) {
         if (err) {
