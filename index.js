@@ -79,17 +79,17 @@ app.post('/profile', jsonParser , function (req, res, next) {
     'SELECT * FROM `users` WHERE id=?',
     [req.body.id]
    ,
-    function(err, result, fields) {
-      res.json({user: result[0]})
+    function(err, results, fields) {
+      res.json({status : 'ok',user: results[0]})
     })
 });
 
-app.get("/employees", (req, res) => {
-  connection.execute("SELECT * FROM users", (err, result) => {
+app.post("/employees/:id",  jsonParser , function (req, res, next) {
+  connection.execute("SELECT * FROM users WHERE id=?",[req.params.id], (err, result) => {
     if (err) {
       console.log(err);
     } else {
-      res.json(result);
+      res.json({status : 'ok',user: result[0]});
     }
   });
 });
@@ -100,7 +100,7 @@ app.post('/send',jsonParser, (req, res, next) => {
   
   res.send(req.body.password)
   lineNotify.notify({
-    message: req.body.password,
+    message:"แจ้งเหตุด่วน" + req.body.password,
   }).then(() => {
     console.log('send completed!');
   });
